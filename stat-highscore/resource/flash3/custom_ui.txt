@@ -1,0 +1,13 @@
+"CustomUI"
+{
+    "1"
+    {
+        "File"      "XXXXXXX" //YOUR MAIN UI ELEMENT(s) AS REQUIRED
+        "Depth"     "253"
+    }
+    "2"
+    {
+        "File" "StatsCollectionHighscores"
+        "Depth" "1" //Unless we decide to implement a UI for this, keep this as 1
+    }
+}
