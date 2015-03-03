@@ -15,6 +15,7 @@ GetDotaStats Stat-Highscore
 |type      |String        |Always "SAVE", as thats this packet
 |modID     |String        |The modID allocated by GetDotaStats
 |steamID32   |Long          |The SteamID32 of the owner of this highscore
+|userName   |Stromg          |The username of the owner of this highscore
 |highscoreID    |Integer       |The unique ID for this highscore (from the site)
 |highscoreValue  |Integer          |The data of this highscore
 
@@ -54,13 +55,17 @@ Always listen for the error and result fields. If error is populated, then somet
 |Field Name|Field DataType|Field Description
 |----------|--------------|-----------------
 |type      |String        |Always "list"
-|jsonData  |Array of JSON |{"highscore1":123, "highscore2":321, "highscore3":333}
+|jsonData  |Array of JSON |{"3":123,"1":321,"2":333}
+
+The array is in the form of {highscoreID : highscoreValue}, where highscoreID matches the ID you have received from registering this highscore type on the site.
 
 #### top (limit top 10 users)####
 |Field Name|Field DataType|Field Description
 |----------|--------------|-----------------
 |type      |String        |Always "top"
-|jsonData  |Array of JSON |{"highscore1":[ ["jimmydorry":3213], ["noya":3210], ["bmd":322], ["sinz":10] ], "highscore2":[ ["jimmydorry":31], ["noya":50], ["bmd":90], ["sinz":231] ]}
+|jsonData  |Array of JSON |{"1": {"1": ["steamID32","jimmydorry",3213],"2": ["steamID32","noya",3210],"3": ["steamID32","bmd",322],"4": ["steamID32","SinZ",163]},"2": {"1": ["steamID32","jimmydorry",31],"2": ["steamID32","noya",50],"3": ["steamID32","bmd",90],"4": ["steamID32","SinZ",167]}}
+
+The array is in the form of {highscoreID : [steamID32, userName, highscoreValue]}, where highscoreID matches the ID you have received from registering this highscore type on the site.
 
 ## Ports ##
 
