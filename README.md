@@ -33,7 +33,7 @@ GetDotaStats Stat-Highscore
 
 ## Server --> Client ##
 
-Always listen for the error and result fields. If error is populated, then something went wrong and you may want to indicate the raw error to the user in the client.
+Always listen for the error and result fields. If error is populated, then something went wrong and you may want to indicate the raw error to the user in the client, otherwise you may want to communicate the result to the user (optional).
 
 #### on success ####
 |Field Name|Field DataType|Field Description
@@ -48,8 +48,7 @@ Always listen for the error and result fields. If error is populated, then somet
 #### save ####
 |Field Name|Field DataType|Field Description
 |----------|--------------|-----------------
-
-No additional fields
+|type      |String        |Always "save"
 
 #### list ####
 |Field Name|Field DataType|Field Description
