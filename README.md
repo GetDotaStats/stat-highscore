@@ -15,7 +15,7 @@ GetDotaStats Stat-Highscore
 |type      |String        |Always "SAVE", as thats this packet
 |modID     |String        |The modID allocated by GetDotaStats
 |steamID32   |Long          |The SteamID32 of the owner of this highscore
-|userName   |Stromg          |The username of the owner of this highscore
+|userName   |String          |The username of the owner of this highscore
 |highscoreID    |Integer       |The unique ID for this highscore (from the site)
 |highscoreValue  |Integer          |The data of this highscore
 
@@ -63,9 +63,9 @@ The array is in the form of {highscoreID : highscoreValue}, where highscoreID ma
 |Field Name|Field DataType|Field Description
 |----------|--------------|-----------------
 |type      |String        |Always "top"
-|jsonData  |Array of JSON |{"1": {"1": ["steamID32","jimmydorry",3213],"2": ["steamID32","noya",3210],"3": ["steamID32","bmd",322],"4": ["steamID32","SinZ",163]},"2": {"1": ["steamID32","jimmydorry",31],"2": ["steamID32","noya",50],"3": ["steamID32","bmd",90],"4": ["steamID32","SinZ",167]}}
+|jsonData  |Array of JSON |{"1": {"1":{"steamID32":"steamID32","userName":"jimmydorry","value":3213},"2":{"steamID32":"steamID32","userName":"noya","value":3210},"3":{"steamID32":"steamID32","userName":"bmd","value":322},"4":{"steamID32":"steamID32","userName":"SinZ","value":163}},"2":{"1":{"steamID32":"steamID32","userName":"jimmydorry","value":31},"2":{"steamID32":"steamID32","userName":"noya","value":50},"3":{"steamID32":"steamID32","userName":"bmd","value":90},"4":{"steamID32":"steamID32","userName":"SinZ","value":167}}}
 
-The array is in the form of {highscoreID : [steamID32, userName, highscoreValue]}, where highscoreID matches the ID you have received from registering this highscore type on the site.
+The array is in the form of {highscoreID : {rank : {steamID32, userName, highscoreValue}, rank : [steamID32, userName, highscoreValue], ...} ... } , where highscoreID matches the ID you have received from registering this highscore type on the site.
 
 ## Ports ##
 
