@@ -35,16 +35,21 @@ GetDotaStats Stat-Highscore
 
 Always listen for the error and result fields. If error is populated, then something went wrong and you may want to indicate the raw error to the user in the client.
 
-#### success ####
+#### on success ####
 |Field Name|Field DataType|Field Description
 |----------|--------------|-----------------
-|result      |String        |Always "success"
+|result    |String        | String describing success, only useful for debugging
 
-#### failure ####
+#### on failure ####
 |Field Name|Field DataType|Field Description
 |----------|--------------|-----------------
-|result      |String        |Always "failure"
 |error     |String        |A string describing the error. Only useful for debugging purposes
+
+#### save ####
+|Field Name|Field DataType|Field Description
+|----------|--------------|-----------------
+
+No additional fields
 
 #### list ####
 |Field Name|Field DataType|Field Description
