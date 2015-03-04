@@ -103,8 +103,13 @@
 						trace("###STATS_HIGHSCORES ERROR: "+test["error"]);
 					break;
 					case "list":
-						var jsonData = test["jsonData"];
 						var output:Object;
+						if ("error" in test["jsonData"]) {
+							trace("###STATS_HIGHSCORES list failed horribly (probably no highscores yet)");
+							callback(output); //soz not soz
+							return;
+						}
+						var jsonData = test["jsonData"];
 						for each (var entry in jsonData) {
 							if (entry.highscoreID in output) {}
 							else {
@@ -118,8 +123,13 @@
 						callback(output);
 					break;
 					case "top":
-						var jsonData = test["jsonData"];
 						var output:Object;
+						if ("error" in test["jsonData"]) {
+							trace("###STATS_HIGHSCORES list failed horribly (probably no highscores yet)");
+							callback(output); //soz not soz
+							return;
+						}
+						var jsonData = test["jsonData"];
 						for each (var entry in jsonData) {
 							if (entry.highscoreID in output) {}
 							else {
