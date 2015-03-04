@@ -155,7 +155,7 @@
 			var info:Object = {
 				type    : "SAVE",
 				modID   : modID,
-				steamID : SteamID,
+				steamID32 : SteamID,
 				userName : UserName,
 				highscoreID  : highscoreID,
 				highscoreValue : highscoreValue
@@ -170,7 +170,7 @@
 			var info:Object = {
 				type    : "LIST",
 				modID   : modID,
-				steamID : SteamID
+				steamID32 : SteamID
 			};
 			
 			json = new JSONEncoder(info).getString();
