@@ -4,6 +4,7 @@ GetDotaStats Stat-Highscore
 ###About###
  - This repo allows mods to have highscores. It would be most useful for competitive mods.
  - This mod is only useful in tandem with the site. New high score metrics need to be setup via the site.
+ - The log file can be observed here: http://getdotastats.com/d2mods/log-highscore-mods.html
 
 # GetDotaStats - StatCollectionHighscore specs 1.0 #
 
@@ -55,17 +56,25 @@ Always listen for the error and result fields. If error is populated, then somet
 |Field Name|Field DataType|Field Description
 |----------|--------------|-----------------
 |type      |String        |Always "list"
-|jsonData  |Array of JSON |{"3":123,"1":321,"2":333}
+|jsonData  |Array of JSON |Array of data that communicates what value the user has recorded in the highscore charts for this mod
 
-The array is in the form of {highscoreID : highscoreValue}, where highscoreID matches the ID you have received from registering this highscore type on the site.
+The jsonData will look like: 
+
+[{"highscoreID":2,"highscoreValue":145,"date_recorded":"2015-03-04T03:23:57.000z"},{"highscoreID":5,"highscoreValue":3,"date_recorded":"2015-03-01T03:21:31.000z"}]
 
 #### top (limit top 10 users)####
 |Field Name|Field DataType|Field Description
 |----------|--------------|-----------------
 |type      |String        |Always "top"
-|jsonData  |Array of JSON |{"1": {"1":{"steamID32":"steamID32","userName":"jimmydorry","value":3213},"2":{"steamID32":"steamID32","userName":"noya","value":3210},"3":{"steamID32":"steamID32","userName":"bmd","value":322},"4":{"steamID32":"steamID32","userName":"SinZ","value":163}},"2":{"1":{"steamID32":"steamID32","userName":"jimmydorry","value":31},"2":{"steamID32":"steamID32","userName":"noya","value":50},"3":{"steamID32":"steamID32","userName":"bmd","value":90},"4":{"steamID32":"steamID32","userName":"SinZ","value":167}}}
+|jsonData  |Array of JSON |Array of data that communicates who the top 10 users in each of the highscore types are for this mod and what value they recorded
 
-The array is in the form of {highscoreID : {rank : {steamID32, userName, highscoreValue}, rank : [steamID32, userName, highscoreValue], ...} ... } , where highscoreID matches the ID you have received from registering this highscore type on the site.
+The jsonData will look like: 
+
+[{"highscoreID":2,"userName":"foobar","steamID32":XXXXXXX,"highscoreValue":145,"date_recorded":"2015-03-04T03:23:57.000z"},
+{"highscoreID":2,"userName":"sinz","steamID32":XXXXXXX,"highscoreValue":10,"date_recorded":"2015-03-04T03:23:57.000z"},
+{"highscoreID":2,"userName":"bmd","steamID32":XXXXXXX,"highscoreValue":1,"date_recorded":"2015-03-04T03:23:57.000z"},
+{"highscoreID":3,"userName":"bmd","steamID32":XXXXXXX,"highscoreValue":420,"date_recorded":"2015-03-04T03:23:57.000z"},
+{"highscoreID":3,"userName":"sinz","steamID32":XXXXXXX,"highscoreValue":322,"date_recorded":"2015-03-04T03:23:57.000z"}]
 
 ## Ports ##
 
