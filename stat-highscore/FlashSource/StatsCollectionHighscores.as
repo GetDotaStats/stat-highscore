@@ -9,6 +9,8 @@
     import flash.utils.Timer;
     import flash.events.TimerEvent;
 	
+	import com.adobe.utils.DateUtil;
+	
 	import com.adobe.serialization.json.JSONEncoder;
 	import com.adobe.serialization.json.JSONParseError;
 	import com.adobe.serialization.json.JSONDecoder;
@@ -102,13 +104,35 @@
 					break;
 					case "list":
 						var jsonData = test["jsonData"];
-						//TODO: Wrap it in a bow and make sure its nice and shiny for fussy (and lazy) mod devs
-						callback(jsonData);
+						var output:Object;
+						for each (var entry in jsonData) {
+							if (entry.highscoreID in output) {}
+							else {
+								output[entry.highscoreID] = new Array();
+							}
+							output[entry.highscoreID].push({
+									highscoreValue : entry.highscoreValue,
+									date : DateUtil.parseW3CDTF(entry.date_recorded)
+							});
+						}
+						callback(output);
 					break;
 					case "top":
 						var jsonData = test["jsonData"];
-						//TODO: Wrap it in a bow and make sure its nice and shiny for fussy (and lazy) mod devs
-						callback(jsonData);
+						var output:Object;
+						for each (var entry in jsonData) {
+							if (entry.highscoreID in output) {}
+							else {
+								output[entry.highscoreID] = new Array();
+							}
+							output[entry.highscoreID].push({
+									userName : entry.userName,
+									steamID : entry.steamID32,
+									highscoreValue : entry.highscoreValue,
+									date : DateUtil.parseW3CDTF(entry.date_recorded)
+							});
+						}
+						callback(output);
 					break;
 					default:
 						trace("###STATS_HIGHSCORES OHGODOHGODOHGOD WHAT IS HAPPENING?!");
