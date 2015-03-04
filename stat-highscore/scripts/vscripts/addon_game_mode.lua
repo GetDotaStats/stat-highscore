@@ -32,12 +32,14 @@ end
 
 --------------------------------------------------------------------------------
 function YourGamemode:GameThink()
-    -- Check to see if the game has finished
-    if GameRules:State_Get() >= DOTA_GAMERULES_STATE_POST_GAME then
-        -- Send stats
-        statcollection.sendStats()
-
-        -- Delete the thinker
+    -- Check to see if the game has started
+    if GameRules:State_Get() >= DOTA_GAMERULES_STATE_HERO_SELECTION then
+		-- This is for Flash to know its steamID
+		j = {}
+		for i=0,9 do
+		j[tostring(i)] = PlayerResource:GetSteamAccountID(i)
+		end
+		FireGameEvent("stat_collection_steamID", j)
         return
     else
         -- Check again in 1 second

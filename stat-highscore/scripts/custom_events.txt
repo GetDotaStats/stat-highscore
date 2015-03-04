@@ -21,6 +21,18 @@
 "CustomEvents"
 {
     // Stat collection
-    //     Sorry that nothing is here, if you ask nicely you might get a hug
+    "stat_collection_steamID" //Note this one event will power both StatsCollectionAchievments, StatsCollectionRPG aswell as StatsCollectionHighscores
+    {
+        "0"             "long"
+        "1"             "long"
+        "2"             "long"
+        "3"             "long"
+        "4"             "long"
+        "5"             "long"
+        "6"             "long"
+        "7"             "long"
+        "8"             "long"
+        "9"             "long"
+    }
     // End Stat Collection
 }

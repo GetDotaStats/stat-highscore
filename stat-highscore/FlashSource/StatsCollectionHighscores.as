@@ -18,15 +18,16 @@
         public var globals:Object;
         public var elementName:String;
 		
-		var SteamID:Number;
+		var SteamID:Number; //Collected on launch
+		var UserName:String;// ^
 
 		var sock:Socket;
-		var callback:Function;
 		
-		var json:String;
+		var callback:Function; //Used to get info from GetDotaStats back to the mod
+		var json:String;       //Used to get info from the mod to GetDotaStats
 
 		var SERVER_ADDRESS:String = "176.31.182.87";
-		var SERVER_PORT:Number = 4446;
+		var SERVER_PORT:Number = 4451;
 
         public function onLoaded() : void {
             // Tell the user what is going on
@@ -45,6 +46,11 @@
 			SERVER_PORT = parseInt(settings.SERVER_PORT_LIVE);
             // Log the server
             trace("Server was set to "+SERVER_ADDRESS+":"+SERVER_PORT);
+			
+			// Hook the stat collection event
+			gameAPI.SubscribeToGameEvent("stat_collection_steamID", this.statCollectSteamID);
+			
+			UserName = globals.Players.GetPlayerName(globals.Player.GetLocalPlayer());
         }
 		private function ServerConnect(serverAddress:String, serverPort:int) {
 			// Tell the client
@@ -121,9 +127,50 @@
         }
 		
 		// HIGH SCORES FLASH API
-		
-		//TODO: Actually have an API
-		
+		public function SaveHighScore(modID:String, highscoreID:int, highscoreValue:int) {
+			var info:Object = {
+				type    : "SAVE",
+				modID   : modID,
+				steamID : SteamID,
+				userName : UserName,
+				highscoreID  : highscoreID,
+				highscoreValue : highscoreValue
+			};
+			
+			json = new JSONEncoder(info).getString();
+			ServerConnect(SERVER_ADDRESS, SERVER_PORT);
+		}
+		public function GetPersonalLeaderboard(modID:String, callback:Function) {
+			this.callback = callback;
+			
+			var info:Object = {
+				type    : "LIST",
+				modID   : modID,
+				steamID : SteamID
+			};
+			
+			json = new JSONEncoder(info).getString();
+			ServerConnect(SERVER_ADDRESS, SERVER_PORT);
+		}
+		public function GetTopLeaderboard(modID:String, callback:Function) {
+			this.callback = callback;
+			
+			var info:Object = {
+				type    : "TOP",
+				modID   : modID
+			};
+			
+			json = new JSONEncoder(info).getString();
+			ServerConnect(SERVER_ADDRESS, SERVER_PORT);
+		}
 		// END FLASH API
+		
+		//
+		// Event Handlers 
+		//
+		public function statCollectSteamID(args:Object) {
+			SteamID = args[globals.Players.GetLocalPlayer()];
+			trace("STEAM ID: "+SteamID);
+		}
     }
 }
