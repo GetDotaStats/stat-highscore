@@ -104,7 +104,7 @@
 					break;
 					case "list":
 						var output:Object;
-						if ("error" in test["jsonData"]) {
+						if ("error" in test["error"]) {
 							trace("###STATS_HIGHSCORES list failed horribly (probably no highscores yet)");
 							callback(output); //soz not soz
 							return;
@@ -124,8 +124,8 @@
 					break;
 					case "top":
 						var output:Object;
-						if ("error" in test["jsonData"]) {
-							trace("###STATS_HIGHSCORES list failed horribly (probably no highscores yet)");
+						if ("error" in test["error"]) {
+							trace("###STATS_HIGHSCORES top failed horribly (probably no highscores yet)");
 							callback(output); //soz not soz
 							return;
 						}
