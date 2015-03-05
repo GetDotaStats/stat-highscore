@@ -21,7 +21,7 @@
         public var elementName:String;
 		
 		var SteamID:Number; //Collected on launch
-		var UserName:String;// ^
+		var UserName:Number;// ^
 
 		var sock:Socket;
 		
@@ -51,8 +51,6 @@
 			
 			// Hook the stat collection event
 			gameAPI.SubscribeToGameEvent("stat_collection_steamID", this.statCollectSteamID);
-			
-			UserName = globals.Players.GetPlayerName(globals.Player.GetLocalPlayer());
         }
 		private function ServerConnect(serverAddress:String, serverPort:int) {
 			// Tell the client
@@ -103,43 +101,43 @@
 						trace("###STATS_HIGHSCORES ERROR: "+test["error"]);
 					break;
 					case "list":
-						var output:Object;
-						if ("error" in test["error"]) {
+						var output:Object = new Object();
+						if (test.hasOwnProperty("error")) {
 							trace("###STATS_HIGHSCORES list failed horribly (probably no highscores yet)");
 							callback(output); //soz not soz
 							return;
 						}
-						var jsonData = test["jsonData"];
-						for each (var entry in jsonData) {
-							if (entry.highscoreID in output) {}
+						for each (var entry:Object in test["jsonData"]) {
+							PrintTable(entry);
+							if (output.hasOwnProperty(entry["highscoreID"])) {}
 							else {
-								output[entry.highscoreID] = new Array();
+								output[entry["highscoreID"]] = new Array();
 							}
-							output[entry.highscoreID].push({
-									highscoreValue : entry.highscoreValue,
-									date : DateUtil.parseW3CDTF(entry.date_recorded)
+							output[entry["highscoreID"]].push({
+									highscoreValue : entry["highscoreValue"],
+									date : DateUtil.parseW3CDTF(entry["date_recorded"])
 							});
 						}
 						callback(output);
 					break;
 					case "top":
-						var output:Object;
-						if ("error" in test["error"]) {
+						var output:Object = new Object();
+						if (test.hasOwnProperty("error")) {
 							trace("###STATS_HIGHSCORES top failed horribly (probably no highscores yet)");
 							callback(output); //soz not soz
 							return;
 						}
-						var jsonData = test["jsonData"];
-						for each (var entry in jsonData) {
-							if (entry.highscoreID in output) {}
+						for each (var entry:Object in test["jsonData"]) {
+							PrintTable(entry);
+							if (output.hasOwnProperty(entry["highscoreID"])) {}
 							else {
-								output[entry.highscoreID] = new Array();
+								output[entry["highscoreID"]] = new Array();
 							}
-							output[entry.highscoreID].push({
-									userName : entry.userName,
-									steamID : entry.steamID32,
-									highscoreValue : entry.highscoreValue,
-									date : DateUtil.parseW3CDTF(entry.date_recorded)
+							output[entry["highscoreID"]].push({
+									userName : entry["userName"],
+									steamID : entry["steamID32"],
+									highscoreValue : entry["highscoreValue"],
+									date : DateUtil.parseW3CDTF(entry["date_recorded"])
 							});
 						}
 						callback(output);
@@ -166,7 +164,7 @@
 				type    : "SAVE",
 				modID   : modID,
 				steamID32 : SteamID,
-				userName : UserName,
+				userName : globals.Players.GetPlayerName(globals.Players.GetLocalPlayer()),
 				highscoreID  : highscoreID,
 				highscoreValue : highscoreValue
 			};
@@ -204,7 +202,121 @@
 		//
 		public function statCollectSteamID(args:Object) {
 			SteamID = args[globals.Players.GetLocalPlayer()];
+			UserName = globals.Players.GetPlayerName(globals.Players.GetLocalPlayer());
 			trace("STEAM ID: "+SteamID);
+			trace("USERNAME: "+UserName);
 		}
+		
+				//Stolen from Frota
+		public function strRep(str, count) {
+            var output = "";
+            for(var i=0; i<count; i++) {
+                output = output + str;
+            }
+
+            return output;
+        }
+
+        public function isPrintable(t) {
+        	if(t == null || t is Number || t is String || t is Boolean || t is Function || t is Array) {
+        		return true;
+        	}
+        	// Check for vectors
+        	if(flash.utils.getQualifiedClassName(t).indexOf('__AS3__.vec::Vector') == 0) return true;
+
+        	return false;
+        }
+
+        public function PrintTable(t, indent=0, done=null) {
+        	var i:int, key, key1, v:*;
+
+        	if(indent == 0) {
+        		trace(t.name+" "+t+": {")
+        	}
+
+        	// Stop loops
+        	done ||= new flash.utils.Dictionary(true);
+        	if(done[t]) {
+        		trace(strRep("\t", indent)+"<loop object> "+t);
+        		return;
+        	}
+        	done[t] = true;
+
+        	// Grab this class
+        	var thisClass = flash.utils.getQualifiedClassName(t);
+
+        	// Print methods
+			for each(key1 in flash.utils.describeType(t)..method) {
+				// Check if this is part of our class
+				if(key1.@declaredBy == thisClass) {
+					// Yes, log it
+					trace(strRep("\t", indent+1)+key1.@name+"()");
+				}
+			}
+
+			// Check for text
+			if("text" in t) {
+				trace(strRep("\t", indent+1)+"text: "+t.text);
+			}
+
+			// Print variables
+			for each(key1 in flash.utils.describeType(t)..variable) {
+				key = key1.@name;
+				v = t[key];
+
+				// Check if we can print it in one line
+				if(isPrintable(v)) {
+					trace(strRep("\t", indent+1)+key+": "+v);
+				} else {
+					// Open bracket
+					trace(strRep("\t", indent+1)+key+": {");
+
+					// Recurse!
+					PrintTable(v, indent+1, done)
+
+					// Close bracket
+					trace(strRep("\t", indent+1)+"}");
+				}
+			}
+
+			// Find other keys
+			for(key in t) {
+				v = t[key];
+
+				// Check if we can print it in one line
+				if(isPrintable(v)) {
+					trace(strRep("\t", indent+1)+key+": "+v);
+				} else {
+					// Open bracket
+					trace(strRep("\t", indent+1)+key+": {");
+
+					// Recurse!
+					PrintTable(v, indent+1, done)
+
+					// Close bracket
+					trace(strRep("\t", indent+1)+"}");
+				}
+        	}
+
+        	// Get children
+        	if(t is MovieClip) {
+        		// Loop over children
+	        	for(i = 0; i < t.numChildren; i++) {
+	        		// Open bracket
+					trace(strRep("\t", indent+1)+t.name+" "+t+": {");
+
+					// Recurse!
+	        		PrintTable(t.getChildAt(i), indent+1, done);
+
+	        		// Close bracket
+					trace(strRep("\t", indent+1)+"}");
+	        	}
+        	}
+
+        	// Close bracket
+        	if(indent == 0) {
+        		trace("}");
+        	}
+        }
     }
 }
