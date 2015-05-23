@@ -201,10 +201,11 @@
 		// Event Handlers 
 		//
 		public function statCollectSteamID(args:Object) {
-			SteamID = args[globals.Players.GetLocalPlayer()];
-			UserName = globals.Players.GetPlayerName(globals.Players.GetLocalPlayer());
-			trace("STEAM ID: "+SteamID);
-			trace("USERNAME: "+UserName);
+			 var splitMsg:Array = args.ids.split(",");
+			 this.SteamID = Number(splitMsg[this.globals.Players.GetLocalPlayer()]);
+			 this.UserName = this.globals.Players.GetPlayerName(this.globals.Players.GetLocalPlayer());
+			 trace("STEAM ID: " + this.SteamID);
+			 trace("USERNAME: " + this.UserName);
 		}
 		
 				//Stolen from Frota

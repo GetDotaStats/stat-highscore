@@ -34,11 +34,14 @@ end
 function YourGamemode:GameThink()
     -- Check to see if the game has started
     if GameRules:State_Get() >= DOTA_GAMERULES_STATE_HERO_SELECTION then
+		-- Stats Collection Highscores/RPG/Achievements
 		-- This is for Flash to know its steamID
 		j = {}
 		for i=0,9 do
-		j[tostring(i)] = PlayerResource:GetSteamAccountID(i)
+			j[i+1] = tostring(PlayerResource:GetSteamAccountID(i))
 		end
+		local result = table.concat(j, ",")
+		j = {ids=result}
 		FireGameEvent("stat_collection_steamID", j)
         return
     else
