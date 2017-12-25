@@ -17,12 +17,6 @@ function statCollection:highscoreSave(highscoreID, pid, value, callback, authKey
         matchID = tostring(GameRules:GetMatchID()),
         schemaVersion = statCollection.highscoreSchemaVersion
     }
-    print(payload)
-    for k,v in pairs(payload) do
-        print("Payload key " .. tostring(k))
-        print("Payload value " .. tostring(v))
-        print("Payload type " .. type(v))
-    end
     if authkey then
         payload.userAuthKey = authKey
     end
