@@ -1,0 +1,36 @@
+<root>
+    <scripts>
+        <include src="file://{resources}/scripts/custom_game/example_highscores.js" /> 
+    </scripts>
+    <styles>
+        <include src="s2r://panorama/styles/dotastyles.vcss_c" />
+        <include src="file://{resources}/styles/example_highscores.css" />
+    </styles>
+    <snippets>
+        <snippet name="leaderboardEntry">
+            <Panel class="LeaderboardEntry">
+                <Label id="rank" class="rank" text="rank" />
+                <DOTAAvatarImage id="avatar" steamid="local" />
+                <DOTAUserName id="username" steamid="local" />
+                <Label id="value" text="VALUE" />
+                <Label id="matchID" text="Match ID" />
+                <Label id="date" text="DATE" />
+            </Panel>
+        </snippet>
+    </snippets>
+    <Panel>
+        <Button id="RequestLobby" onactivate="OnRequestLobbyPressed()">
+            <Label text="LOBBY TEST" />
+        </Button>
+        <Button id="RequestList" onactivate="OnRequestListPressed()">
+            <Label text="LIST TEST" />
+            <DropDown id="UserList">
+                <Label text="None" id="None!"/>
+            </DropDown>
+        </Button>
+        <Button id="RequestTop" onactivate="OnRequestTopPressed()">
+            <Label text="TOP TEST" />
+        </Button>
+        <Panel id="Output" />
+    </Panel>
+</root>

@@ -1,0 +1,14 @@
+<root>
+    <script>
+		// Only loaded like this to guarentee loaded before pregame, might work as a CustomUIElement type="Hud" still in production
+        var statCollection = $.CreatePanel("Panel", $.GetContextPanel(), "StatCollection");
+        statCollection.BLoadLayout("file://{resources}/layout/custom_game/statcollection.xml", false, false);
+        
+        var statHighscore = $.CreatePanel("Panel", $.GetContextPanel(), "StatHighscore");
+        statHighscore.BLoadLayout("file://{resources}/layout/custom_game/stathighscore.xml", false, false);
+    
+    </script>
+    <Panel>
+        <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/example_highscores.xml" />
+    </Panel>
+</root>
