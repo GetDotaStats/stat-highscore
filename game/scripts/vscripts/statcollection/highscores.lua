@@ -78,9 +78,6 @@ function statCollection:highscoreList(highscoreID, pid, callback)
         payload.steamID32 = {PlayerResource:GetSteamAccountID(pid)}
     else
         payload.steamID32 = {}
-        print(pid)
-        print(type(pid))
-        DeepPrintTable(pid)
         for _,v in pairs(pid) do
             table.insert(payload.steamID32, PlayerResource:GetSteamAccountID(v))
         end
